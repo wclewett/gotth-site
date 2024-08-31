@@ -1,0 +1,16 @@
+A1 Coffee Prompt: "You're a waiter in a coffee shop and you're talking with {{ name }}. The next message you will receive is from the customer. Prep..."
+A1 Dog Walking: 
+
+
+----------------
+
+Layout :
+Home Page 
+Login Page
+Offering/Pricing
+Booking Page w/ Calendar Fridays Only, Link to italki for general lessons
+Courses
+  - Grammar
+  - Communication
+  - Culture
+  - Practicing Context

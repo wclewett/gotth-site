@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind component;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Merienda';
+    src: url(/static/fonts/merienda.ttf) format('ttf');
+  }
+}
