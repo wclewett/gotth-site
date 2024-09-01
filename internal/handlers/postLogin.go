@@ -57,7 +57,7 @@ func (h *PostLoginHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	session, err := h.sessionStore.CreateSession(&store.Session{
-		UserID: user.ID,
+		UserID: user.Id,
 	})
 
 	if err != nil {
@@ -65,7 +65,7 @@ func (h *PostLoginHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userID := user.ID
+	userID := user.Id
 	sessionID := session.SessionID
 
 	cookieValue := b64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%d", sessionID, userID)))

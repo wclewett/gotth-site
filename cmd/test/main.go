@@ -5,7 +5,7 @@ import (
 	"errors"
 	"simple-serv/internal/config"
 	"simple-serv/internal/handlers"
-	"simple-serv/internal/hash/password"
+	// "simple-serv/internal/hash/password"
 	database "simple-serv/internal/store/db"
 	"simple-serv/internal/store/dbstore"
 	"log/slog"
@@ -38,14 +38,14 @@ func main() {
 	cfg := config.MustLoadConfig()
 
 	db := database.MustOpen(cfg.DatabaseName)
-	passwordhash := password.NewHPasswordHash()
+	// passwordhash := password.NewHPasswordHash()
 
-	userStore := dbstore.NewUserStore(
-		dbstore.NewUserStoreParams{
-			DB:           db,
-			PasswordHash: passwordhash,
-		},
-	)
+	// userStore := dbstore.NewUserStore(
+	// 	dbstore.NewUserStoreParams{
+	// 		DB:           db,
+	// 		PasswordHash: passwordhash,
+	// 	},
+	// )
 
 	sessionStore := dbstore.NewSessionStore(
 		dbstore.NewSessionStoreParams{
@@ -66,28 +66,26 @@ func main() {
 			authMiddleware.AddUserToContext,
 		)
 
-		r.NotFound(handlers.NewNotFoundHandler().Serve)
+		r.NotFound(handlers.NewNotFoundHandler().ServeHTTP)
 
 		r.Get("/", handlers.NewHolaHandler().Serve)
 
-		// r.Get("/about", handlers.NewAboutHandler().ServeHTTP)
-
-		r.Get("/register", handlers.NewGetRegisterHandler().Serve)
-		r.Post("/register", handlers.NewPostRegisterHandler(handlers.PostRegisterHandlerParams{
-			UserStore: userStore,
-		}).ServeHTTP)
-
 		r.Get("/acceder", handlers.NewGetLoginHandler().Serve)
-		r.Post("/acceder", handlers.NewPostLoginHandler(handlers.PostLoginHandlerParams{
-			UserStore:         userStore,
-			SessionStore:      sessionStore,
-			PasswordHash:      passwordhash,
-			SessionCookieName: cfg.SessionCookieName,
-		}).ServeHTTP)
+		// r.Post("/acceder", handlers.NewPostRegisterHandler(handlers.PostRegisterHandlerParams{
+		// 	UserStore: userStore,
+		// }).Serve)
+
+		// r.Get("/acceder", handlers.NewGetLoginHandler().Serve)
+		// r.Post("/acceder", handlers.NewPostLoginHandler(handlers.PostLoginHandlerParams{
+		// 	UserStore:         userStore,
+		// 	SessionStore:      sessionStore,
+		// 	PasswordHash:      passwordhash,
+		// 	SessionCookieName: cfg.SessionCookieName,
+		// }).ServeHTTP)
 
 		// r.Post("/logout", handlers.NewPostLogoutHandler(handlers.PostLogoutHandlerParams{
 		// 	SessionCookieName: cfg.SessionCookieName,
-		// }).ServeHTTP)
+		// }).Serve)
 	})
 
 	killSig := make(chan os.Signal, 1)
